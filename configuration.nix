@@ -10,7 +10,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      nixos-hardware.nixosModules.framework-13-7040-amd
     ];
 
 
@@ -293,4 +292,5 @@
 
 
 }
+
 

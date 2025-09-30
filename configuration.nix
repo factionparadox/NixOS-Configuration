@@ -1,10 +1,8 @@
-﻿# Edit this configuration file to define what should be installed on
+# Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-
 { config, pkgs, ... }:
-
 
 {
   imports =
@@ -12,15 +10,12 @@
       ./hardware-configuration.nix
     ];
 
-
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-
   # Hibernate / Resume
   boot.resumeDevice = "/dev/nvme0n1p3";
-
 
   # Kernel Boot Parameters
   boot.kernelParams = [
@@ -28,31 +23,31 @@
   "amdgpu.runpm=0"       # keeps GPU powered to avoid black screen
 ];
 
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+  # Enable the Pantheon Desktop Environment.
+  services.xserver.displayManager.lightdm.enable = true; 
+  services.xserver.desktopManager.pantheon.enable = true;
+
 
   # Use latest kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-
   # Enable networking
   networking.networkmanager.enable = true;
-
 
   # Set your time zone.
   time.timeZone = "Europe/London";
 
-
   # Select internationalisation properties.
   i18n.defaultLocale = "en_GB.UTF-8";
-
 
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_GB.UTF-8";
@@ -66,28 +61,7 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
-
  
-  # --- Hyprland + Wayland session ---
-  programs.hyprland.enable = true;
-
-
-  # Portals (file pickers / screen share on Wayland)
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
-
-
-  # Simple Wayland login (no full DE): auto-start Hyprland for your user
-  services.greetd = {
-  enable = true;
-  settings = {
-    default_session = {
-      command = "Hyprland";
-      user = "factionparadox";
-    };
-  };
-};
-
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -95,18 +69,14 @@
     variant = "";
   };
 
-
   # Configure console keymap
   console.keyMap = "uk";
-
 
   # AMD GPU Enable
   services.xserver.videoDrivers = ["amdgpu"];
 
-
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
@@ -119,30 +89,24 @@
     # If you want to use JACK applications, uncomment this
     jack.enable = true;
 
-
     #Use the example session manager?
     #media-session.enable = true;
   };
-
 
   #Bluetooth Support
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
-
   #Redistributable Firmware [Bluetooth/WiFi/GPU]
   hardware.enableRedistributableFirmware = true;
-
 
   #Fonts
   fonts.packages = with pkgs; [
   dejavu_fonts noto-fonts noto-fonts-emoji liberation_ttf terminus_font
 ];
 
-
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.factionparadox = {
@@ -154,7 +118,6 @@
     ];
   };
 
-
   # CPU governor and kernel tweaks
   powerManagement.cpuFreqGovernor = "schedutil";  # or "powersave" if you want maximum battery
   services.auto-cpufreq.enable = true;            # dynamic CPU scaling for laptops
@@ -163,11 +126,9 @@
   programs.steam = {
   enable = true;
 
-
   # Extra libraries for Proton
   gamescopeSession.enable = true; # fullscreen compositor
 };
-
 
   # Enable 32-bit OpenGL + Vulkan for Proton/Radeon Graphics
   hardware.graphics = {
@@ -176,14 +137,11 @@
   extraPackages32 = with pkgs.pkgsi686Linux; [ vaapiVdpau libvdpau-va-gl ];
 };
 
-
   #Gamemode Enable to optimise games in Steam for Hardware + Software
   programs.gamemode.enable = true;
 
-
   # AMD-specific tweaks
   hardware.cpu.amd.updateMicrocode = true; # Ensure you have linux-firmware in systemPackages
-
 
   # TLP for power tuning
   # TLP still needs values, disable it's governor control
@@ -197,14 +155,11 @@
   };
 };  
 
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-
   # Enable Flatpak for programs outside of nixpkgs/NUR
   services.flatpak.enable = true;
-
 
   #Enable ZRAM Swap
   zramSwap = {
@@ -212,28 +167,19 @@
   memoryPercent = 25;
 };
 
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages =
- let
+  let
     unstable = import (builtins.fetchTarball
       "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz") {
         config = config.nixpkgs.config;
       };
   in
   with pkgs; [
-  # Hyprland helper
-  hyprpaper
-
 
   # Apps
   kitty nemo nwg-look vim wget neofetch firefox discord vlc libreoffice-fresh
-
-
-  # Utils
-  grim slurp swappy hyprshot wl-clipboard mako dconf jq socat
-
 
   # QoL
   git brightnessctl pavucontrol 
@@ -242,13 +188,7 @@
   glxinfo mesa-demos radeontop
   powertop auto-cpufreq
 
-
- # From unstable
-  unstable.quickshell  
-
-
   ];
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -258,7 +198,6 @@
   #   enableSSHSupport = true;
   };
 
-
   # Hibernate Controls
    services.logind.extraConfig = ''
     HandleLidSwitch=hibernate
@@ -267,20 +206,16 @@
     IdleActionSec=30min
   '';
 
-
   # List services that you want to enable:
-
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
-
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -290,7 +225,4 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
 
-
 }
-
-

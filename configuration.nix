@@ -25,9 +25,9 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  # Enable the Pantheon Desktop Environment.
+  # Enable the Deepin Desktop Environment.
   services.xserver.displayManager.lightdm.enable = true; 
-  services.xserver.desktopManager.pantheon.enable = true;
+  services.xserver.desktopManager.deepin.enable = true;
 
 
   # Use latest kernel
@@ -141,7 +141,7 @@
   programs.gamemode.enable = true;
 
   # AMD-specific tweaks
-  hardware.cpu.amd.updateMicrocode = true; # Ensure you have linux-firmware in systemPackages
+ hardware.cpu.amd.updateMicrocode = true; # Ensure you have linux-firmware in systemPackages
 
   # TLP for power tuning
   # TLP still needs values, disable it's governor control
@@ -211,7 +211,7 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  # Open ports in the firewall.
+  # Open ports in the firewall
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.

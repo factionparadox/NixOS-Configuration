@@ -23,13 +23,6 @@
   "amdgpu.runpm=0"       # keeps GPU powered to avoid black screen
 ];
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  # Enable the Deepin Desktop Environment.
-  services.xserver.displayManager.lightdm.enable = true; 
-  services.xserver.desktopManager.deepin.enable = true;
-
-
   # Use latest kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -62,6 +55,23 @@
   };
 
  
+  # --- Hyprland + Wayland session ---
+  programs.hyprland.enable = true;
+
+  # Portals (file pickers / screen share on Wayland)
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+
+  # Simple Wayland login (no full DE): auto-start Hyprland for your user
+  services.greetd = {
+  enable = true;
+  settings = {
+    default_session = {
+      command = "Hyprland";
+      user = "nixos";
+    };
+  };
+};
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -109,9 +119,9 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.factionparadox = {
+  users.users.nixos = {
     isNormalUser = true;
-    description = "factionparadox";
+    description = "nixos";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
     #  thunderbird
@@ -141,7 +151,7 @@
   programs.gamemode.enable = true;
 
   # AMD-specific tweaks
- hardware.cpu.amd.updateMicrocode = true; # Ensure you have linux-firmware in systemPackages
+  hardware.cpu.amd.updateMicrocode = true; # Ensure you have linux-firmware in systemPackages
 
   # TLP for power tuning
   # TLP still needs values, disable it's governor control
@@ -170,25 +180,62 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages =
-  let
-    unstable = import (builtins.fetchTarball
-      "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz") {
-        config = config.nixpkgs.config;
-      };
-  in
   with pkgs; [
+  # Hyprland Programs
+  hyprpaper
+  hyprshot
+  hyprpaper
 
   # Apps
-  kitty nemo nwg-look vim wget neofetch firefox discord vlc libreoffice-fresh
+  nwg-look 
+  vim 
+  wget 
+  neofetch 
+  firefox 
+  vlc 
+  libreoffice-fresh
+  pkgs.kdePackages.ktorrent
+  pkgs.webcord-vencord
+
+  # Utils
+  waybar 
+  eww
+  wofi
+  kitty
+  nemo
+  nautilus
+  dconf
+  dconf-editor
+
 
   # QoL
-  git brightnessctl pavucontrol 
-  xdg-utils unzip curl git neovim htop lm_sensors usbutils pciutils p7zip unzip gparted thunderbird mpv linux-firmware protonvpn-gui
+  git
+  brightnessctl 
+  pavucontrol 
+  xdg-utils 
+  unzip 
+  curl 
+  git 
+  neovim 
+  htop 
+  lm_sensors 
+  usbutils 
+  pciutils 
+  p7zip 
+  unzip 
+  gparted 
+  thunderbird 
+  mpv 
+  linux-firmware 
+  protonvpn-gui
+  pkgs.protonmail-desktop
+  
   # GPU/CPU tools
-  glxinfo mesa-demos radeontop
-  powertop auto-cpufreq
-
-  ];
+  glxinfo 
+  mesa-demos 
+  radeontop
+  powertop 
+  auto-cpufreq
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -211,7 +258,7 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  # Open ports in the firewall
+  # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.

@@ -109,12 +109,30 @@
 
   #Redistributable Firmware [Bluetooth/WiFi/GPU]
   hardware.enableRedistributableFirmware = true;
-
+ 
   #Fonts
   fonts.packages = with pkgs; [
-  dejavu_fonts noto-fonts noto-fonts-emoji liberation_ttf terminus_font
-];
+  dejavu_fonts
+  noto-fonts
+  noto-fonts-emoji
+  liberation_ttf
+  terminus_font
 
+  (stdenv.mkDerivation {
+    pname = "maple-mono";
+    version = "6.4";
+    src = fetchzip {
+      url = "https://github.com/subframe7536/Maple-font/releases/download/v6.4/MapleMono-ttf.zip";
+      sha256 = "sha256-ealqkTF2PPhEs1xjLWaTtLAdsqooFLUkd3GEoUptHhM="; # replace with your SRI hash
+      stripRoot = false;
+    };
+    installPhase = ''
+      mkdir -p $out/share/fonts/truetype
+      cp *.ttf $out/share/fonts/truetype/
+    '';
+  })
+  ] ++ (builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts));
+ 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -275,3 +293,4 @@
   system.stateVersion = "25.05"; # Did you read the comment?
 
 }
+

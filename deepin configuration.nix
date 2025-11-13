@@ -128,10 +128,7 @@
   #Gamemode Enable to optimise games in Steam for Hardware + Software
   programs.gamemode.enable = true;
 
-  # AMD-specific tweaks
-  hardware.cpu.amd.updateMicrocode = true; # Ensure you have linux-firmware in systemPackages
-
-  # TLP for power tuning
+    # TLP for power tuning
   # TLP still needs values, disable it's governor control
   # Disable TLP's CPU frequency control so auto-cpufreq can take over:
   services.tlp = {
@@ -157,7 +154,12 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  vim 
+  deepin.deepin-control-center
+  deepin.deepin-dock
+  deepin.deepin-launcher
+  deepin.startdde
+  deepin.deepin-file-manager
+  deepin.deepin-terminal 
   wget 
   neofetch 
   firefox 

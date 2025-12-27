@@ -114,7 +114,7 @@
   fonts.packages = with pkgs; [
   dejavu_fonts
   noto-fonts
-  noto-fonts-emoji
+  noto-fonts-color-emoji
   liberation_ttf
   terminus_font
 
@@ -156,13 +156,6 @@
 
   # Extra libraries for Proton
   gamescopeSession.enable = true; # fullscreen compositor
-};
-
-  # Enable 32-bit OpenGL + Vulkan for Proton/Radeon Graphics
-  hardware.graphics = {
-  enable = true;
-  extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
-  extraPackages32 = with pkgs.pkgsi686Linux; [ vaapiVdpau libvdpau-va-gl ];
 };
 
   #Gamemode Enable to optimise games in Steam for Hardware + Software
@@ -224,8 +217,6 @@
   nautilus
   dconf
   dconf-editor
-  caja
-
 
   # QoL
   git
@@ -250,7 +241,6 @@
   pkgs.protonmail-desktop
   
   # GPU/CPU tools
-  glxinfo 
   mesa-demos 
   radeontop
   powertop 
@@ -265,14 +255,6 @@
   enableSSHSupport = true;
 };
 
-
-  # Hibernate Controls
-   services.logind.extraConfig = ''
-    HandleLidSwitch=hibernate
-    HandleLidSwitchDocked=ignore
-    IdleAction=hibernate
-    IdleActionSec=30min
-  '';
 
   # List services that you want to enable:
 
@@ -291,8 +273,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 
 }
-
-

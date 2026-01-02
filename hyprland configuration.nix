@@ -20,7 +20,6 @@
   # Kernel Boot Parameters
   boot.kernelParams = [
   "amd_pstate=active"    # better CPU scaling
-  "amdgpu.runpm=0"       # keeps GPU powered to avoid black screen
 ];
 
   # Use latest kernel
@@ -182,12 +181,6 @@
   # Enable Flatpak for programs outside of nixpkgs/NUR
   services.flatpak.enable = true;
 
-  #Enable ZRAM Swap
-  zramSwap = {
-  enable = true;
-  memoryPercent = 25;
-};
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages =
@@ -276,3 +269,4 @@
   system.stateVersion = "25.11"; # Did you read the comment?
 
 }
+

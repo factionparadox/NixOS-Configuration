@@ -97,8 +97,11 @@
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "nixos";
 
-  # Enable Flatpak for programs outside of nixpkgs/NUR
-  services.flatpak.enable = true;
+  # Enable Wingpanel
+  services.desktopManager.pantheon.extraWingpanelIndicators = true;
+
+  # Enable Switchboard
+  services.desktopManager.pantheon.extraSwitchboardPlugs = true;
 
   #Enable ZRAM Swap
   zramSwap = {
@@ -128,7 +131,7 @@
   #Gamemode Enable to optimise games in Steam for Hardware + Software
   programs.gamemode.enable = true;
 
-    # TLP for power tuning
+  # TLP for power tuning
   # TLP still needs values, disable it's governor control
   # Disable TLP's CPU frequency control so auto-cpufreq can take over:
   services.tlp = {
@@ -154,12 +157,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  deepin.deepin-control-center
-  deepin.deepin-dock
-  deepin.deepin-launcher
-  deepin.startdde
-  deepin.deepin-file-manager
-  deepin.deepin-terminal 
   wget 
   neofetch 
   firefox 
@@ -198,9 +195,8 @@
   upower
   gvfs
   xdg-user-dirs
-  gsettings-desktop-schemas
-  gnome-keyring
   polkit
+  nano
   xorg.xrandr
   ];
 
@@ -229,6 +225,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 
 }
